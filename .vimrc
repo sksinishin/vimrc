@@ -765,76 +765,76 @@ vmenu PopUp.Source.Swap\ Case<tab>~ ~
 " ==============================================================================
 " "Bundles"                 Пакеты плагинов {{{1
 " ==============================================================================
-
+set nocompatible
 filetype off
 
 set runtimepath+=~/.vim/bundle/vundle/
 
-call vundle#rc()
+call vundle#begin()
 
-"Bundle 'gmarik/vundle'
-"Bundle "getscript.vim"
-"Bundle "netrw.vim"
-Bundle "matrix.vim--Yang"
-Bundle "FencView.vim"
-Bundle "scrooloose/nerdcommenter"
-Bundle "scrooloose/nerdtree"
-Bundle "matchit.zip"
-Bundle "mru.vim"
-Bundle "sessionman.vim"
-"Bundle "calendar"
-Bundle "Shougo/neocomplcache"
-Bundle "Shougo/neosnippet"
-Bundle "Shougo/neosnippet-snippets"
-Bundle "Shougo/neocomplcache-clang"
-Bundle "vcscommand.vim"
-Bundle "Mark--Karkat"
-Bundle "Visual-Mark"
-Bundle "thinca/vim-prettyprint"
-"Bundle "shell"
-"Bundle "open-associated-programs"
-Bundle "delimitMate.vim"
-Bundle "nathanaelkane/vim-indent-guides"
-"Bundle "jsflakes"
-"Bundle "jsruntime"
-"Bundle "jsoncodecs"
-Bundle "lekv/vim-clewn"
-"Bundle "bling/vim-airline"
+Plugin 'gmarik/vundle'
+"Plugin 'getscript.vim'
+"Plugin 'netrw.vim'
+Plugin 'matrix.vim--Yang'
+Plugin 'FencView.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'matchit.zip'
+Plugin 'mru.vim'
+Plugin 'sessionman.vim'
+"Plugin 'calendar'
+Plugin 'Shougo/neocomplcache'
+Plugin 'Shougo/neosnippet'
+Plugin 'Shougo/neosnippet-snippets'
+Plugin 'Shougo/neocomplcache-clang'
+Plugin 'vcscommand.vim'
+Plugin 'Mark--Karkat'
+Plugin 'Visual-Mark'
+Plugin 'thinca/vim-prettyprint'
+"Plugin 'shell'
+"Plugin 'open-associated-programs'
+Plugin 'delimitMate.vim'
+Plugin 'nathanaelkane/vim-indent-guides'
+"Plugin 'jsflakes'
+"Plugin 'jsruntime'
+"Plugin 'jsoncodecs'
+Plugin 'lekv/vim-clewn'
+"Plugin 'bling/vim-airline'
 
 " Плагины требующие наличие установленного python
 if s:python_installed
-    Bundle "SingleCompile"
-    Bundle "xolox/vim-easytags"
-    Bundle "xolox/vim-misc"
-    Bundle "xolox/vim-shell"
-    Bundle "VimCalc"
-"    Bundle "pyinteractive-vim"
-"    Bundle "pyflakes-vim"
-"    Bundle "ropevim"
-    Bundle "Gundo"
-"    Bundle "notes"
-"    Bundle "gtranslate"
+    Plugin 'SingleCompile'
+    Plugin 'xolox/vim-easytags'
+    Plugin 'xolox/vim-misc'
+    Plugin 'xolox/vim-shell'
+    Plugin 'VimCalc'
+"    Plugin 'pyinteractive-vim'
+"    Plugin 'pyflakes-vim'
+"    Plugin 'ropevim'
+    Plugin 'Gundo'
+"    Plugin 'notes'
+"    Plugin 'gtranslate'
 
 endif
 
-Bundle "majutsushi/tagbar"
-"Bundle "pythonsyntax"
-"Bundle "LiteTabPage.vim"
-"Bundle "jpythonfold"
-"Bundle "themes.vim"
-Bundle "sjas/ColorSamplerPack"
-Bundle "altercation/vim-colors-solarized"
-Bundle "thinca/vim-template"
-Bundle "scrooloose/syntastic"
-Bundle "ctrlp.vim"
-Bundle "FSwitch"
+Plugin 'majutsushi/tagbar'
+"Plugin 'pythonsyntax'
+"Plugin 'LiteTabPage.vim'
+"Plugin 'jpythonfold'
+"Plugin 'themes.vim'
+Plugin 'sjas/ColorSamplerPack'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'thinca/vim-template'
+Plugin 'scrooloose/syntastic'
+Plugin 'ctrlp.vim'
+Plugin 'FSwitch'
 
 " Тестируемые"
-"Bundle "vim-css-color"
-"Bundle "vim-powerline"
-"Bundle "vdebug"
+"Plugin 'vim-css-color'
+"Plugin 'vim-powerline'
+"Plugin 'vdebug'
 
-
+call vundle#end()
 filetype plugin indent on
 
 " ==============================================================================
@@ -853,6 +853,18 @@ let g:use_xhtml = 1         " Использовать XHTML
 "When set to 0 the error window will not be opened or closed automatically.
 " Default: 2 (automaticaly closed location list what i want't)
 let g:syntastic_auto_loc_list = 0
+" ==============================================================================
+
+" "neocomplcache {{{1
+" ==============================================================================
+" Neocomplcache gets started automatically when Vim starts
+let g:neocomplcache_enable_at_startup = 1
+" ==============================================================================
+
+" "easytags {{{1
+" ==============================================================================
+" By setting this option to true (1) you enable asynchronous tags file updates
+let g:easytags_async = 1
 " ==============================================================================
 
 " "Functions"               Пользовательские функции {{{1
