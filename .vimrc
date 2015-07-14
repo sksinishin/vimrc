@@ -25,13 +25,19 @@
 "+------------------+-------------------------------------------------+
 "[To disable compatibility with Vi]"
 set nocompatible
+let s:iswin = has('win32') || has('win64')
+
 "[Use Plug-ins and Plug-in Manager(Vundle) only on UNIX or MAC OS]"
-if has("unix") || has("mac")
+if has("unix") || has("mac") || s:iswin
     filetype off
     "[Download and install Vundle Plug-in Manager]"
     try
         if !isdirectory(expand("$HOME/.vim/bundle"))
-            silent !mkdir -p $HOME/.vim/bundle
+            if s:iswin
+                silent execute "!mkdir ".expand("$HOME/.vim/bundle")
+            else
+                silent !mkdir -p $HOME/.vim/bundle
+            endif
             silent cd $HOME/.vim/bundle
             silent !git clone https://github.com/gmarik/Vundle.vim.git
             silent cd $HOME
@@ -178,7 +184,7 @@ set cmdwinheight=10
 set virtualedit=all
 "[GUI/Color Scheme/Font settings]"
 if has("gui_running")
-    winsize 90 50
+    winsize 120 50
     silent cd $HOME
     set linespace=0
     set guioptions=""
@@ -190,7 +196,7 @@ if has("gui_running")
     if has("win32") || has("win64")
         try
             colorscheme desert
-            set guifont=DejaVu_Sans_Mono:h11
+            set guifont=Consolas:h14
         catch
         endtry
     elseif has("unix")
