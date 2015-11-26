@@ -19,13 +19,17 @@
 "| Multiple-Cursors | https://github.com/terryma/vim-multiple-cursors |
 "+------------------+-------------------------------------------------+
 "[Colorschemes list]
-"+------------------+-------------------------------------------------+
-"| Molokai          | https://github.com/tomasr/molokai               |
-"| Mirodark         | https://github.com/djjcast/mirodark             |
-"+------------------+-------------------------------------------------+
+"+------------------+-----------------------------------------------------+
+"| Molokai          | https://github.com/tomasr/molokai                   |
+"| Mirodark         | https://github.com/djjcast/mirodark                 |
+"| Solarized        | https://github.com/altercation/vim-colors-solarized |
+"+------------------+-----------------------------------------------------+
 "[To disable compatibility with Vi]"
 set nocompatible
 let s:iswin = has('win32') || has('win64')
+
+"[Solarized plugin options]
+let g:solarized_menu=0
 
 "[Use Plug-ins and Plug-in Manager(Vundle) only on UNIX or MAC OS]"
 if has("unix") || has("mac") || s:iswin
@@ -74,6 +78,7 @@ if has("unix") || has("mac") || s:iswin
         "[Vim colorschemes]"
         Plugin 'tomasr/molokai'
         Plugin 'djjcast/mirodark'
+        Plugin 'altercation/vim-colors-solarized'
         call vundle#end()
     catch
     endtry
@@ -184,7 +189,7 @@ set cmdwinheight=10
 set virtualedit=all
 "[GUI/Color Scheme/Font settings]"
 if has("gui_running")
-    winsize 120 50
+    winsize 140 50
     silent cd $HOME
     set linespace=0
     set guioptions=""
@@ -199,17 +204,17 @@ if has("gui_running")
             set guifont=Consolas:h14
         catch
         endtry
+    elseif has("mac")
+        try
+            set antialias
+            colorscheme solarized
+            set guifont=Menlo:h14
+        catch
+        endtry
     elseif has("unix")
         try
             colorscheme mirodark
             set guifont=DejaVu\ Sans\ Mono\ 11
-        catch
-        endtry
-    elseif has("mac")
-        try
-            set antialias
-            colorscheme molokai
-            set guifont=Monaco:h11
         catch
         endtry
     endif
