@@ -401,9 +401,7 @@ set mousehide   " Прятать указатель во время набора
 "set cursorline  " Включить подсветку текущей позиции курсора
 set mousemodel=popup
 
-
 if has('gui_running')
-
     " Шрифт по умолчанию
     if s:iswin
         if s:us_use_dark_colorscheme
@@ -768,7 +766,18 @@ vmenu PopUp.Source.Swap\ Case<tab>~ ~
 set nocompatible
 filetype off
 
-set runtimepath+=~/.vim/bundle/vundle/
+if !isdirectory(expand("$HOME/.vim/bundle"))
+    if s:iswin
+           silent execute "!mkdir ".expand("$HOME/.vim/bundle")
+    else
+           silent !mkdir -p $HOME/.vim/bundle
+    endif
+    silent cd $HOME/.vim/bundle
+    silent !git clone https://github.com/gmarik/Vundle.vim.git
+    silent cd $HOME
+endif
+
+set runtimepath+=~/.vim/bundle/vundle
 
 call vundle#begin()
 
@@ -866,6 +875,10 @@ let g:neocomplcache_enable_at_startup = 1
 " By setting this option to true (1) you enable asynchronous tags file updates
 let g:easytags_async = 1
 " ==============================================================================
+" "colorized {{{1
+" ==============================================================================
+colorscheme solarized
+"===============================================================================
 
 " "Functions"               Пользовательские функции {{{1
 " ==============================================================================
