@@ -31,7 +31,7 @@ let s:iswin = has('win32') || has('win64')
 "[Solarized plugin options]
 let g:solarized_menu=0
 
-"[Use Plug-ins and Plug-in Manager(Vundle) only on UNIX or MAC OS]"
+"[Use Plug-ins and Plug-in Manager(Vundle)]"
 if has("unix") || has("mac") || s:iswin
     filetype off
     "[Download and install Vundle Plug-in Manager]"
@@ -136,11 +136,11 @@ inoremap hh <Left>
 "[Easy omni-completion with Ctrl-Space]"
 inoremap <C-Space> <C-X><C-O>
 "[To disable the arrow keys]"
-for prefix in ['i', 'n', 'v']
-    for key in ['<Up>', '<Down>', '<Left>', '<Right>']
-        execute prefix . "noremap " . key . " <Nop>"
-    endfor
-endfor
+"for prefix in ['i', 'n', 'v']
+"    for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+"        execute prefix . "noremap " . key . " <Nop>"
+"    endfor
+"endfor
 "[Threshold for reporting number of lines changed]"
 set report=0
 "[Show command in the last line of the screen]"
@@ -315,7 +315,7 @@ set hidden
 "[Switch between buffers. Settings]"
 set switchbuf=useopen,usetab,newtab
 "[Wrap settings]"
-set wrap
+set nowrap
 set wrapscan
 set whichwrap=<,>,[,]
 set nolinebreak
