@@ -32,9 +32,9 @@
 "    "F10" Toggle Fullscreen
 "    "F11" Close Current Window
 "    "F12" Delete Current Buffer
-"" ==============================================================================
+" ==============================================================================
 " Установленные плагины и их зависимости {{{1
-" "taglist"
+
 " просмотр списка тегов/навигатор по коду
 " ( http://www.vim.org/scripts/script.php?script_id=273 )
 "   requres-tool: ctags
@@ -361,6 +361,10 @@ set fileencodings=ucs-bom,utf-8,cp1251
 set fileformat=unix          " Формат файла по умолчанию
 set fileformats=unix,dos,mac " Порядок определения формата файла
 
+" Автоматически перечитывать конфигурацию при её изменении
+if has("autocmd")
+    autocmd! BufWritePost $MYVIMRC source $MYVIMRC
+endif
 " ==============================================================================
 " "Backup,Undo,Swap"        Резервное копирование {{{1
 " ==============================================================================
@@ -388,6 +392,107 @@ set writebackup
 " Отключить swap файлы
 set noswapfile
 
+" "Plugins"                 Пакеты плагинов {{{1
+" ==============================================================================
+set nocompatible
+filetype off
+
+let s:install_plugins = 0
+if !isdirectory(expand("$HOME/.vim/bundle"))
+    if s:iswin
+           silent execute "!mkdir ".expand("$HOME/.vim/bundle")
+    else
+           silent !mkdir -p $HOME/.vim/bundle
+    endif
+    silent cd $HOME/.vim/bundle
+    silent !git clone https://github.com/gmarik/Vundle.vim.git
+    silent cd $HOME
+    let s:install_plugins = 1
+endif
+
+set runtimepath+=~/.vim/bundle/vundle
+
+call vundle#begin()
+
+Plugin 'gmarik/vundle'
+"Plugin 'getscript.vim'
+"Plugin 'netrw.vim'
+Plugin 'matrix.vim--Yang'
+Plugin 'FencView.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'matchit.zip'
+Plugin 'mru.vim'
+Plugin 'sessionman.vim'
+"Plugin 'calendar'
+Plugin 'Shougo/neocomplcache'
+Plugin 'Shougo/neosnippet'
+Plugin 'Shougo/neosnippet-snippets'
+Plugin 'Shougo/neocomplcache-clang'
+Plugin 'vcscommand.vim'
+Plugin 'Mark--Karkat'
+Plugin 'Visual-Mark'
+Plugin 'thinca/vim-prettyprint'
+"Plugin 'shell'
+"Plugin 'open-associated-programs'
+Plugin 'delimitMate.vim'
+Plugin 'nathanaelkane/vim-indent-guides'
+"Plugin 'jsflakes'
+"Plugin 'jsruntime'
+"Plugin 'jsoncodecs'
+Plugin 'lekv/vim-clewn'
+"Plugin 'bling/vim-airline'
+
+" Плагины требующие наличие установленного python
+if s:python_installed
+    Plugin 'SingleCompile'
+    Plugin 'xolox/vim-easytags'
+    Plugin 'xolox/vim-misc'
+    Plugin 'xolox/vim-shell'
+    Plugin 'VimCalc'
+"    Plugin 'pyinteractive-vim'
+"    Plugin 'pyflakes-vim'
+"    Plugin 'ropevim'
+    Plugin 'Gundo'
+"    Plugin 'notes'
+"    Plugin 'gtranslate'
+
+endif
+
+Plugin 'majutsushi/tagbar'
+"Plugin 'pythonsyntax'
+"Plugin 'LiteTabPage.vim'
+"Plugin 'jpythonfold'
+"Plugin 'themes.vim'
+Plugin 'sjas/ColorSamplerPack'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'thinca/vim-template'
+Plugin 'scrooloose/syntastic'
+Plugin 'ctrlp.vim'
+Plugin 'FSwitch'
+
+" Тестируемые"
+"Plugin 'vim-css-color'
+"Plugin 'vim-powerline'
+"Plugin 'vdebug'
+
+call vundle#end()
+if (s:install_plugins)
+    execute PluginInstall
+endif
+filetype plugin indent on
+
+" ==============================================================================
+" "Plugin.tohtml" {{{1
+" ==============================================================================
+
+let g:html_use_css = 1      " Использовать CSS
+let g:html_number_lines = 0 " При генерации не добавлять номера строк
+let g:use_xhtml = 1         " Использовать XHTML
+
+" ==============================================================================
+
+" ==============================================================================
 " ==============================================================================
 " "GUI"                     Вид {{{1
 " ==============================================================================
@@ -402,20 +507,6 @@ set mousehide   " Прятать указатель во время набора
 set mousemodel=popup
 
 if has('gui_running')
-    " Шрифт по умолчанию
-    if s:iswin
-        if s:us_use_dark_colorscheme
-            set gfn=DejaVu_Sans_Mono:h10:cRUSSIAN,consolas:h14
-        else
-            set gfn=DejaVu_Sans_Mono:h10:b:cRUSSIAN,consolas:h14
-        endif
-
-    elseif has("gui_gtk2")
-        set gfn=DejaVu\ Sans\ Mono\ 10
-    elseif s:ismac
-        set gfn=Menlo:h16
-    endif
-
     " Цветовая схема по умолчанию
     if s:us_use_dark_colorscheme
         set background=dark
@@ -423,9 +514,24 @@ if has('gui_running')
         set background=light
     endif
 
-    colorscheme solarized
+    " Шрифт по умолчанию
+    if s:iswin
+        if s:us_use_dark_colorscheme
+            set gfn=DejaVu_Sans_Mono:h10:cRUSSIAN,consolas:h14
+        else
+            set gfn=DejaVu_Sans_Mono:h10:b:cRUSSIAN,consolas:h14
+        endif
+        colorscheme desert
+    elseif has("gui_gtk2")
+        set gfn=DejaVu\ Sans\ Mono\ 10
+        colorscheme solarized
+    elseif s:ismac
+        set antialias
+        colorscheme solarized
+        set guifont=Menlo:h14
+    endif
 
-elseif s:iswin
+elseif s:iswin " Windows console
     colorscheme desert
 else
     colorscheme wombat
@@ -442,6 +548,7 @@ set guioptions-=T   " Убрать toolbar
 
 set number          " Включение отображения номеров строк
 set numberwidth=5
+set relativenumber  " Показывать номера относительные номера строк
 set shortmess+=I    " Отключение приветственного сообщения
 set showtabline=2   " Показывать по умлочанию строку со вкладками
 set wildmenu        " Показывать меню в командной строке
@@ -508,7 +615,7 @@ function! s:InitStatusLine(show_indent_warnings, show_tspace_warnings)
         set stl+=%*
     endif
     "set stl+=\ %#StatusLineBufferNumber#
-    "set stl+=[%{tagbar#currenttag('%s','')} 
+    "set stl+=[%{tagbar#currenttag('%s','')}
     "set stl+=]%*\ 
     set stl+=%=      " Выравнивание по правому краю
     set stl+=\ 
@@ -761,102 +868,7 @@ vmenu PopUp.Source.Lower\ Case<tab>u u
 vmenu PopUp.Source.Swap\ Case<tab>~ ~
 
 " ==============================================================================
-" "Bundles"                 Пакеты плагинов {{{1
-" ==============================================================================
-set nocompatible
-filetype off
 
-if !isdirectory(expand("$HOME/.vim/bundle"))
-    if s:iswin
-           silent execute "!mkdir ".expand("$HOME/.vim/bundle")
-    else
-           silent !mkdir -p $HOME/.vim/bundle
-    endif
-    silent cd $HOME/.vim/bundle
-    silent !git clone https://github.com/gmarik/Vundle.vim.git
-    silent cd $HOME
-endif
-
-set runtimepath+=~/.vim/bundle/vundle
-
-call vundle#begin()
-
-Plugin 'gmarik/vundle'
-"Plugin 'getscript.vim'
-"Plugin 'netrw.vim'
-Plugin 'matrix.vim--Yang'
-Plugin 'FencView.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'matchit.zip'
-Plugin 'mru.vim'
-Plugin 'sessionman.vim'
-"Plugin 'calendar'
-Plugin 'Shougo/neocomplcache'
-Plugin 'Shougo/neosnippet'
-Plugin 'Shougo/neosnippet-snippets'
-Plugin 'Shougo/neocomplcache-clang'
-Plugin 'vcscommand.vim'
-Plugin 'Mark--Karkat'
-Plugin 'Visual-Mark'
-Plugin 'thinca/vim-prettyprint'
-"Plugin 'shell'
-"Plugin 'open-associated-programs'
-Plugin 'delimitMate.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
-"Plugin 'jsflakes'
-"Plugin 'jsruntime'
-"Plugin 'jsoncodecs'
-Plugin 'lekv/vim-clewn'
-"Plugin 'bling/vim-airline'
-
-" Плагины требующие наличие установленного python
-if s:python_installed
-    Plugin 'SingleCompile'
-    Plugin 'xolox/vim-easytags'
-    Plugin 'xolox/vim-misc'
-    Plugin 'xolox/vim-shell'
-    Plugin 'VimCalc'
-"    Plugin 'pyinteractive-vim'
-"    Plugin 'pyflakes-vim'
-"    Plugin 'ropevim'
-    Plugin 'Gundo'
-"    Plugin 'notes'
-"    Plugin 'gtranslate'
-
-endif
-
-Plugin 'majutsushi/tagbar'
-"Plugin 'pythonsyntax'
-"Plugin 'LiteTabPage.vim'
-"Plugin 'jpythonfold'
-"Plugin 'themes.vim'
-Plugin 'sjas/ColorSamplerPack'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'thinca/vim-template'
-Plugin 'scrooloose/syntastic'
-Plugin 'ctrlp.vim'
-Plugin 'FSwitch'
-
-" Тестируемые"
-"Plugin 'vim-css-color'
-"Plugin 'vim-powerline'
-"Plugin 'vdebug'
-
-call vundle#end()
-filetype plugin indent on
-
-" ==============================================================================
-" "Plugin.tohtml" {{{1
-" ==============================================================================
-
-let g:html_use_css = 1      " Использовать CSS
-let g:html_number_lines = 0 " При генерации не добавлять номера строк
-let g:use_xhtml = 1         " Использовать XHTML
-
-" ==============================================================================
-
-" ==============================================================================
 " "syntastic" {{{1
 " ==============================================================================
 "When set to 0 the error window will not be opened or closed automatically.
@@ -875,14 +887,10 @@ let g:neocomplcache_enable_at_startup = 1
 " By setting this option to true (1) you enable asynchronous tags file updates
 let g:easytags_async = 1
 " ==============================================================================
-" "colorized {{{1
-" ==============================================================================
-colorscheme solarized
-"===============================================================================
+
 
 " "Functions"               Пользовательские функции {{{1
 " ==============================================================================
-
 let s:cmdline = ""
 
 " Открытие файла приложением определённым по умолчанию
