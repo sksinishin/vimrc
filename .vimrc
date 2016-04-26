@@ -405,16 +405,16 @@ if !isdirectory(expand("$HOME/.vim/bundle"))
            silent !mkdir -p $HOME/.vim/bundle
     endif
     silent cd $HOME/.vim/bundle
-    silent !git clone https://github.com/gmarik/Vundle.vim.git
+    silent !git clone https://github.com/VundleVim/Vundle.vim.git
     silent cd $HOME
     let s:install_plugins = 1
 endif
 
-set runtimepath+=~/.vim/bundle/vundle
+set runtimepath+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 
-Plugin 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 "Plugin 'getscript.vim'
 "Plugin 'netrw.vim'
 Plugin 'matrix.vim--Yang'
@@ -470,6 +470,7 @@ Plugin 'thinca/vim-template'
 Plugin 'scrooloose/syntastic'
 Plugin 'ctrlp.vim'
 Plugin 'FSwitch'
+Plugin 'mhinz/vim-startify'
 
 " Тестируемые"
 "Plugin 'vim-css-color'
@@ -478,7 +479,7 @@ Plugin 'FSwitch'
 
 call vundle#end()
 if (s:install_plugins)
-    execute PluginInstall
+    :PluginInstall
 endif
 filetype plugin indent on
 
@@ -521,7 +522,7 @@ if has('gui_running')
         else
             set gfn=DejaVu_Sans_Mono:h10:b:cRUSSIAN,consolas:h14
         endif
-        colorscheme desert
+        colorscheme solarized
     elseif has("gui_gtk2")
         set gfn=DejaVu\ Sans\ Mono\ 10
         colorscheme solarized
@@ -935,7 +936,7 @@ endfunction
 function! s:TrimWhiteSpace()
     normal ma
     :retab
-    :%s/\s\+$//eg
+    :%s/\\\@<!\s\+$//eg
     normal 'a
 endfunction
 
@@ -1012,7 +1013,7 @@ function! StatuslineTrailingSpaceWarning()
             return b:statusline_trailing_space_warning
         endif
 
-        if search('\s\+$', 'nw') != 0
+        if search('\\\@<!\s\+$', 'nw') != 0
             let b:statusline_trailing_space_warning = '[\s]'
         else
             let b:statusline_trailing_space_warning = ''
