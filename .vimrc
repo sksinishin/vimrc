@@ -219,7 +219,7 @@
 
 let s:iswin = has('win32') || has('win64')
 let s:ismac = has('mac') || has('macunix')
-let s:lastsession_file = expand($TEMP).'/lastsession.vim'
+let s:lastsession_file = expand($HOME).'/lastsession.vim'
 
 " Отключение совместимости с vi
 set nocompatible
