@@ -535,7 +535,7 @@ if has('gui_running')
 elseif s:iswin " Windows console
     colorscheme desert
 else
-    colorscheme wombat
+    colorscheme wombat256
 endif
 
 if s:iswin
