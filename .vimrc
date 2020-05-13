@@ -875,6 +875,8 @@ vmenu PopUp.Source.Swap\ Case<tab>~ ~
 "When set to 0 the error window will not be opened or closed automatically.
 " Default: 2 (automaticaly closed location list what i want't)
 let g:syntastic_auto_loc_list = 0
+" Support c++17 for cpp-files
+let g:syntastic_cpp_compiler_options = "-std=c++17"
 " ==============================================================================
 
 " "neocomplcache {{{1
