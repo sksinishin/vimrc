@@ -1,4 +1,4 @@
-1# vimrc
+# vimrc
 My vim settings
 
 change 1
